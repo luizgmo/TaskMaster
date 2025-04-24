@@ -18,8 +18,25 @@
         [checked]="todo.isCompleted"
         (change)="toggleTodo(todo)"
       >
-      <span [class.completed]="todo.isCompleted">{{ todo.title }}</span>
-      <button (click)="deleteTodo(todo.id)">×</button>
+
+      <span *ngIf="editingTodoId !== todo.id" [class.completed]="todo.isCompleted">
+        {{ todo.title }}
+      </span>
+
+      <input
+        *ngIf="editingTodoId === todo.id"
+        type="text"
+        [(ngModel)]="editedTitle"
+        (keyup.enter)="saveEdit(todo)"
+        (keyup.escape)="cancelEdit()"
+      />
+
+      <div class="btn-group">
+        <button *ngIf="editingTodoId !== todo.id" (click)="editTodo(todo)">Editar</button>
+        <button *ngIf="editingTodoId === todo.id" (click)="saveEdit(todo)">Salvar</button>
+        <button *ngIf="editingTodoId === todo.id" (click)="cancelEdit()">Cancelar</button>
+        <button *ngIf="editingTodoId !== todo.id" class="delete-btn" (click)="deleteTodo(todo.id)">×</button>
+      </div>
     </div>
   </div>
 </div>
