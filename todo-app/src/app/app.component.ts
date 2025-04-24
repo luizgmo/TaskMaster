@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 interface Todo {
   id: number;
   title: string;
+  dueDate: string;
+  priority: 'Baixa' | 'Média' | 'Alta';
   isCompleted: boolean;
 }
 
@@ -19,10 +21,15 @@ interface Todo {
 export class AppComponent {
   title = 'todo-app';
   todos: Todo[] = [];
-  newTodo = '';
+
+  newTodoTitle = '';
+  newTodoDueDate = '';
+  newTodoPriority: 'Baixa' | 'Média' | 'Alta' = 'Baixa';
 
   editingTodoId: number | null = null;
-  editedTitle: string = '';
+  editedTitle = '';
+  editedDueDate = '';
+  editedPriority: 'Baixa' | 'Média' | 'Alta' = 'Baixa';
 
   constructor(private http: HttpClient) {
     this.loadTodos();
@@ -34,13 +41,17 @@ export class AppComponent {
   }
 
   addTodo() {
-    if (!this.newTodo.trim()) return;
+    if (!this.newTodoTitle.trim()) return;
 
     this.http.post<Todo>('http://localhost:5206/api/todoitems', {
-      title: this.newTodo,
+      title: this.newTodoTitle,
+      dueDate: this.newTodoDueDate,
+      priority: this.newTodoPriority,
       isCompleted: false
     }).subscribe(() => {
-      this.newTodo = '';
+      this.newTodoTitle = '';
+      this.newTodoDueDate = '';
+      this.newTodoPriority = 'Baixa';
       this.loadTodos();
     });
   }
@@ -60,12 +71,19 @@ export class AppComponent {
   editTodo(todo: Todo) {
     this.editingTodoId = todo.id;
     this.editedTitle = todo.title;
+    this.editedDueDate = todo.dueDate || '';
+    this.editedPriority = todo.priority;
   }
 
   saveEdit(todo: Todo) {
     if (!this.editedTitle.trim()) return;
 
-    const updatedTodo = { ...todo, title: this.editedTitle };
+    const updatedTodo = {
+      ...todo,
+      title: this.editedTitle,
+      dueDate: this.editedDueDate,
+      priority: this.editedPriority
+    };
 
     this.http.put(`http://localhost:5206/api/todoitems/${todo.id}`, updatedTodo)
       .subscribe(() => {

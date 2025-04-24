@@ -2,13 +2,26 @@
   <h1>Todo List</h1>
 
   <div class="input-section">
-    <input
-      type="text"
-      [(ngModel)]="newTodo"
-      (keyup.enter)="addTodo()"
-      placeholder="Adicione uma nova tarefa"
-    >
-    <button (click)="addTodo()">Adicionar</button>
+    <div class="row">
+      <input
+        type="text"
+        [(ngModel)]="newTodoTitle"
+        placeholder="Título da tarefa"
+      />
+      <input
+        type="datetime-local"
+        [(ngModel)]="newTodoDueDate"
+      />
+    </div>
+
+    <div class="row">
+      <select [(ngModel)]="newTodoPriority">
+        <option value="Baixa">Baixa</option>
+        <option value="Média">Média</option>
+        <option value="Alta">Alta</option>
+      </select>
+      <button (click)="addTodo()">Adicionar</button>
+    </div>
   </div>
 
   <div class="todo-list">
@@ -17,19 +30,32 @@
         type="checkbox"
         [checked]="todo.isCompleted"
         (change)="toggleTodo(todo)"
-      >
-
-      <span *ngIf="editingTodoId !== todo.id" [class.completed]="todo.isCompleted">
-        {{ todo.title }}
-      </span>
-
-      <input
-        *ngIf="editingTodoId === todo.id"
-        type="text"
-        [(ngModel)]="editedTitle"
-        (keyup.enter)="saveEdit(todo)"
-        (keyup.escape)="cancelEdit()"
       />
+
+      <div *ngIf="editingTodoId !== todo.id" class="todo-view">
+        <span [class.completed]="todo.isCompleted" class="title">{{ todo.title }}</span>
+        <span class="due-date">{{ todo.dueDate ? (todo.dueDate | date:'short') : 'Sem data' }}</span>
+        <span class="priority" [ngClass]="todo.priority.toLowerCase()">{{ todo.priority }}</span>
+      </div>
+
+      <div *ngIf="editingTodoId === todo.id" class="todo-edit">
+        <input
+          type="text"
+          [(ngModel)]="editedTitle"
+          (keyup.enter)="saveEdit(todo)"
+          (keyup.escape)="cancelEdit()"
+          placeholder="Título"
+        />
+        <input
+          type="datetime-local"
+          [(ngModel)]="editedDueDate"
+        />
+        <select [(ngModel)]="editedPriority">
+          <option value="Baixa">Baixa</option>
+          <option value="Média">Média</option>
+          <option value="Alta">Alta</option>
+        </select>
+      </div>
 
       <div class="btn-group">
         <button *ngIf="editingTodoId !== todo.id" (click)="editTodo(todo)">Editar</button>
