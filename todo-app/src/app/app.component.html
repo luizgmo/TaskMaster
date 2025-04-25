@@ -24,8 +24,56 @@
     </div>
   </div>
 
+  <div class="filter-section">
+    <input
+      type="text"
+      placeholder="Pesquisar por título"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilter()"
+      class="search-input"
+    />
+
+    <div class="priority-filter">
+      <label>Prioridades:</label>
+      <div class="checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="selectedPriorities['Baixa']"
+            (change)="togglePriorityFilter('Baixa')"
+          />
+          <span class="priority baixa">Baixa</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            [checked]="selectedPriorities['Média']"
+            (change)="togglePriorityFilter('Média')"
+          />
+          <span class="priority média">Média</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            [checked]="selectedPriorities['Alta']"
+            (change)="togglePriorityFilter('Alta')"
+          />
+          <span class="priority alta">Alta</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="sort-section">
+      <label for="sortSelect">Ordenar por:</label>
+      <select id="sortSelect" [(ngModel)]="sortCriteria" (change)="applySort()">
+        <option value="date">Data</option>
+        <option value="priority">Prioridade</option>
+      </select>
+    </div>
+  </div>
+
   <div class="todo-list">
-    <div *ngFor="let todo of todos" class="todo-item">
+    <div *ngFor="let todo of filteredTodos" class="todo-item">
       <input
         type="checkbox"
         [checked]="todo.isCompleted"
@@ -33,9 +81,16 @@
       />
 
       <div *ngIf="editingTodoId !== todo.id" class="todo-view">
-        <span [class.completed]="todo.isCompleted" class="title">{{ todo.title }}</span>
-        <span class="due-date">{{ todo.dueDate ? (todo.dueDate | date:'short') : 'Sem data' }}</span>
-        <span class="priority" [ngClass]="todo.priority.toLowerCase()">{{ todo.priority }}</span>
+        <span
+          [class.completed]="todo.isCompleted"
+          class="title"
+        >{{ todo.title }}</span>
+        <span class="due-date">
+          {{ todo.dueDate ? (todo.dueDate | date : "short") : "Sem data" }}
+        </span>
+        <span class="priority" [ngClass]="todo.priority.toLowerCase()">
+          {{ todo.priority }}
+        </span>
       </div>
 
       <div *ngIf="editingTodoId === todo.id" class="todo-edit">
@@ -46,10 +101,7 @@
           (keyup.escape)="cancelEdit()"
           placeholder="Título"
         />
-        <input
-          type="datetime-local"
-          [(ngModel)]="editedDueDate"
-        />
+        <input type="datetime-local" [(ngModel)]="editedDueDate" />
         <select [(ngModel)]="editedPriority">
           <option value="Baixa">Baixa</option>
           <option value="Média">Média</option>
@@ -58,11 +110,30 @@
       </div>
 
       <div class="btn-group">
-        <button *ngIf="editingTodoId !== todo.id" (click)="editTodo(todo)">Editar</button>
-        <button *ngIf="editingTodoId === todo.id" (click)="saveEdit(todo)">Salvar</button>
-        <button *ngIf="editingTodoId === todo.id" (click)="cancelEdit()">Cancelar</button>
-        <button *ngIf="editingTodoId !== todo.id" class="delete-btn" (click)="deleteTodo(todo.id)">×</button>
+        <button *ngIf="editingTodoId !== todo.id" (click)="editTodo(todo)">
+          Editar
+        </button>
+        <button *ngIf="editingTodoId === todo.id" (click)="saveEdit(todo)">
+          Salvar
+        </button>
+        <button *ngIf="editingTodoId === todo.id" (click)="cancelEdit()">
+          Cancelar
+        </button>
+        <button
+          *ngIf="editingTodoId !== todo.id"
+          class="delete-btn"
+          (click)="deleteTodo(todo.id)"
+        >
+          ×
+        </button>
       </div>
     </div>
   </div>
+
+  <button
+    *ngIf="hasCompletedTasks()"
+    class="remove-completed-btn"
+    (click)="removeCompleted()">
+    Remover Concluídas
+  </button>
 </div>

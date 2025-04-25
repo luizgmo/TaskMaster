@@ -28,6 +28,7 @@ h1 {
   margin-bottom: 0;
 }
 
+/* seção de input */
 .input-section {
   display: flex;
   flex-direction: column;
@@ -54,7 +55,7 @@ h1 {
   background: #2c2c2c;
   color: #e0e0e0;
   padding: 0.5rem 0.75rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   box-sizing: border-box;
 }
@@ -91,6 +92,105 @@ h1 {
   background: #42a5f5;
 }
 
+/* seção de filtro */
+.filter-section {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-section label {
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.filter-section input[type="text"],
+.filter-section select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 2px solid #444;
+  background: #2c2c2c;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.filter-section .search-input {
+  flex: 1;
+}
+
+.filter-section input[type="text"]:focus,
+.filter-section select:focus {
+  outline: none;
+  border-color: #90caf9;
+  box-shadow: 0 0 6px #90caf9;
+  background: #3a3a3a;
+}
+
+/* filtro de prioridade */
+.priority-filter {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.checkbox-group label:hover {
+  opacity: 0.9;
+}
+
+.checkbox-group input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #90caf9;
+}
+
+.priority-filter .priority {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: white;
+}
+
+.priority-filter .priority.baixa {
+  background-color: #4caf50;
+}
+
+.priority-filter .priority.média {
+  background-color: #ff9800;
+}
+
+.priority-filter .priority.alta {
+  background-color: #f44336;
+}
+
+/* seção de ordenação */
+.sort-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* lista de tarefas */
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -190,7 +290,7 @@ h1 {
   background: #2c2c2c;
   color: #e0e0e0;
   padding: 0.3rem 0.5rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .todo-list .todo-item .todo-edit input[type="text"]:focus,
@@ -248,14 +348,56 @@ h1 {
   font-style: italic;
 }
 
-@media (max-width: 520px) {
+/* botao para remover concluidas */
+.remove-completed-btn {
+  background-color: #ef5350;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+.remove-completed-btn:hover {
+  background-color: #d32f2f;
+}
+
+.remove-completed-btn:active {
+  background-color: #b71c1c;
+}
+
+/* responsividade */
+@media (max-width: 768px) {
   .container {
     margin: 2rem 1rem;
     padding: 1.5rem 1.75rem;
   }
 
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .filter-section .search-input,
+  .filter-section .sort-section,
+  .filter-section .priority-filter {
+    width: 100%;
+  }
+
+  .sort-section {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 520px) {
   .input-section .row {
     flex-direction: column;
+    gap: 0.5rem;
   }
 
   .input-section .row > * {
@@ -265,15 +407,19 @@ h1 {
   .todo-list .todo-item {
     flex-direction: column;
     align-items: flex-start;
+    padding: 0.75rem;
   }
 
   .todo-list .todo-item .todo-view,
   .todo-list .todo-item .todo-edit {
+    width: 100%;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
   .todo-list .todo-item .btn-group {
     margin-top: 0.5rem;
+    width: 100%;
+    justify-content: flex-end;
   }
 }
