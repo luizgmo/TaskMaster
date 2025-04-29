@@ -52,18 +52,24 @@ TaskMaster é uma aplicação web de gerenciamento de tarefas (Todo List) desenv
 ```bash
 git clone https://github.com/luizgmo/TaskMaster.git
 cd TaskMaster
+```
 
-⚙️ 2. Rodar o Backend (.NET)
+### ⚙️ 2. Rodar o Backend (.NET)
+
+```bash
 cd TodoApi
 dotnet restore
 dotnet build
 dotnet run
+```
 O backend estará rodando em http://localhost:5206
 
-💻 3. Rodar o Frontend (Angular)
+### 💻 3. Rodar o Frontend (Angular)
 Abra um novo terminal e execute:
 
+```bash
 cd todo-app
 npm install
 ng serve
+```
 O frontend estará acessível em http://localhost:4200
