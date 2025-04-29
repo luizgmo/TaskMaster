@@ -45,23 +45,25 @@ TaskMaster é uma aplicação web de gerenciamento de tarefas (Todo List) desenv
 - [Angular CLI](https://cli.angular.io/)
 - [.NET SDK](https://dotnet.microsoft.com/download)
 
-## 🚀 Instruções para rodar o projeto
+---
+
+### 🔧 1. Clonar o repositório
 
 ```bash
-# 1. Clonar o repositório
 git clone https://github.com/luizgmo/TaskMaster.git
 cd TaskMaster
 
-# 2. Rodar o Backend (.NET)
+⚙️ 2. Rodar o Backend (.NET)
 cd TodoApi
 dotnet restore
 dotnet build
 dotnet run
-# O backend estará rodando em http://localhost:5206
+O backend estará rodando em http://localhost:5206
 
-# 3. Rodar o Frontend (Angular)
-# Abra um novo terminal
-cd ../todo-app
+💻 3. Rodar o Frontend (Angular)
+Abra um novo terminal e execute:
+
+cd todo-app
 npm install
 ng serve
-# O frontend estará acessível em http://localhost:4200
+O frontend estará acessível em http://localhost:4200
